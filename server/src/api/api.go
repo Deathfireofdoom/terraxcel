@@ -2,10 +2,10 @@
 package api
 
 import (
-	"github.com/Deathfireofdoom/excel-infra-service/api/extension"
-	"github.com/Deathfireofdoom/excel-infra-service/api/health"
-	"github.com/Deathfireofdoom/excel-infra-service/api/workbook"
-	"github.com/Deathfireofdoom/excel-infra-service/middleware"
+	"github.com/Deathfireofdoom/terraxcel/server/src/api/extension"
+	"github.com/Deathfireofdoom/terraxcel/server/src/api/health"
+	"github.com/Deathfireofdoom/terraxcel/server/src/api/workbook"
+	"github.com/Deathfireofdoom/terraxcel/server/src/middleware"
 	"github.com/go-chi/chi"
 )
 

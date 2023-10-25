@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Deathfireofdoom/excel-client-go/pkg/client"
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
+	client "github.com/Deathfireofdoom/terraxcel/server/src/pkg/terraxcel"
 
 	"github.com/go-chi/chi"
 )
@@ -33,7 +33,7 @@ func CreateCellHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
