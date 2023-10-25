@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Deathfireofdoom/excel-client-go/pkg/excel"
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
+	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
 )
 
-func (c *ExcelClient) CreateCell(workbookID, sheetID string, row int, column string, value interface{}) (*models.Cell, error) {
+func (c *TerraxcelClient) CreateCell(workbookID, sheetID string, row int, column string, *models.CellValue) (*models.Cell, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err
@@ -53,9 +53,9 @@ func (c *ExcelClient) CreateCell(workbookID, sheetID string, row int, column str
 	return cell, nil
 }
 
-func (c *ExcelClient) ReadCell(workbookID, sheetID, cellID string) (*models.Cell, error) {
+func (c *TerraxcelClient) ReadCell(workbookID, sheetID, cellID string) (*models.Cell, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err
@@ -91,9 +91,9 @@ func (c *ExcelClient) ReadCell(workbookID, sheetID, cellID string) (*models.Cell
 	return cell, nil
 }
 
-func (c *ExcelClient) DeleteCell(workbookID, sheetID, cellID string) error {
+func (c *TerraxcelClient) DeleteCell(workbookID, sheetID, cellID string) error {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return err
@@ -136,9 +136,9 @@ func (c *ExcelClient) DeleteCell(workbookID, sheetID, cellID string) error {
 	return nil
 }
 
-func (c *ExcelClient) UpdateCell(cell *models.Cell) (*models.Cell, error) {
+func (c *TerraxcelClient) UpdateCell(cell *models.Cell) (*models.Cell, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(cell.WorkbookID)
+	workbook, err := c.repository.GetWorkbook(cell.WorkbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err

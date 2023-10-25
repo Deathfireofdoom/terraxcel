@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Deathfireofdoom/excel-client-go/pkg/excel"
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
+	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
 )
 
-func (c *ExcelClient) CreateSheet(workbookID, sheetName string) (*models.Sheet, error) {
+func (c *TerraxcelClient) CreateSheet(workbookID, sheetName string) (*models.Sheet, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err
@@ -46,9 +46,9 @@ func (c *ExcelClient) CreateSheet(workbookID, sheetName string) (*models.Sheet, 
 	return sheet, nil
 }
 
-func (c *ExcelClient) ReadSheet(workbookID, sheetID string) (*models.Sheet, error) {
+func (c *TerraxcelClient) ReadSheet(workbookID, sheetID string) (*models.Sheet, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err
@@ -77,9 +77,9 @@ func (c *ExcelClient) ReadSheet(workbookID, sheetID string) (*models.Sheet, erro
 	return sheet, nil
 }
 
-func (c *ExcelClient) DeleteSheet(workbookID, sheetID string) error {
+func (c *TerraxcelClient) DeleteSheet(workbookID, sheetID string) error {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(workbookID)
+	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return err
@@ -115,9 +115,9 @@ func (c *ExcelClient) DeleteSheet(workbookID, sheetID string) error {
 	return nil
 }
 
-func (c *ExcelClient) UpdateSheet(sheet *models.Sheet) (*models.Sheet, error) {
+func (c *TerraxcelClient) UpdateSheet(sheet *models.Sheet) (*models.Sheet, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetMetadata(sheet.WorkbookID)
+	workbook, err := c.repository.GetWorkbook(sheet.WorkbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err

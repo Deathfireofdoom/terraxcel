@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Deathfireofdoom/excel-client-go/pkg/excel"
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
+	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
 )
 
 // CreateExcel creates an excel file in the specified folder path with the specified file name and extension
-func (c *ExcelClient) CreateWorkbook(folderPath, fileName, extension, id string) (*models.Workbook, error) {
+func (c *TerraxcelClient) CreateWorkbook(folderPath, fileName, extension, id string) (*models.Workbook, error) {
 	// creates object with metadata
 	workbook, err := models.NewWorkbook(fileName, models.Extension(extension), folderPath, id)
 	if err != nil {
@@ -26,7 +26,7 @@ func (c *ExcelClient) CreateWorkbook(folderPath, fileName, extension, id string)
 	}
 
 	// save metadata to db
-	err = c.repository.SaveMetadata(workbook)
+	err = c.repository.SaveWorkbook(workbook)
 	if err != nil {
 		fmt.Printf("failed to save metadata: %v", err)
 		return nil, err
@@ -35,7 +35,7 @@ func (c *ExcelClient) CreateWorkbook(folderPath, fileName, extension, id string)
 	return workbook, nil
 }
 
-func (c *ExcelClient) ReadWorkbook(id string) (*models.Workbook, error) {
+func (c *TerraxcelClient) ReadWorkbook(id string) (*models.Workbook, error) {
 	// get metadata from db
 	workbook, err := c.repository.GetWorkbook(id)
 	if err != nil {
@@ -52,9 +52,9 @@ func (c *ExcelClient) ReadWorkbook(id string) (*models.Workbook, error) {
 	return workbook, nil
 }
 
-func (c *ExcelClient) DeleteWorkbook(id string) error {
+func (c *TerraxcelClient) DeleteWorkbook(id string) error {
 	// get metadata from db
-	workbook, err := c.repository.GetMetadata(id)
+	workbook, err := c.repository.GetWorkbook(id)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return err
@@ -74,7 +74,7 @@ func (c *ExcelClient) DeleteWorkbook(id string) error {
 	}
 
 	// delete metadata from db
-	err = c.repository.DeleteMetadata(id)
+	err = c.repository.DeleteWorkbook(id)
 	if err != nil {
 		fmt.Printf("failed to delete metadata: %v", err)
 		return err
@@ -83,9 +83,9 @@ func (c *ExcelClient) DeleteWorkbook(id string) error {
 	return nil
 }
 
-func (c *ExcelClient) UpdateWorkbook(workbook *models.Workbook) (*models.Workbook, error) {
+func (c *TerraxcelClient) UpdateWorkbook(workbook *models.Workbook) (*models.Workbook, error) {
 	// get old metadata from db
-	oldWorkbook, err := c.repository.GetMetadata(workbook.ID)
+	oldWorkbook, err := c.repository.GetWorkbook(workbook.ID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v\n", err)
 		return nil, err
@@ -118,7 +118,7 @@ func (c *ExcelClient) UpdateWorkbook(workbook *models.Workbook) (*models.Workboo
 	}
 
 	// update metadata in db
-	err = c.repository.SaveMetadata(workbook)
+	err = c.repository.SaveWorkbook(workbook)
 	if err != nil {
 		fmt.Printf("failed to update metadata: %v\n", err)
 		return nil, err
