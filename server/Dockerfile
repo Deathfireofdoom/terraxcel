@@ -6,8 +6,8 @@ COPY ./go.mod ./go.sum ./
 
 RUN go mod download
 
-COPY ./src ./src
+COPY . .
 
-RUN CGO_ENABLED=1 go build -o main ./src/cmd/main.go
+RUN CGO_ENABLED=1 go build -o main ./cmd/main.go
 
 CMD ["./main"]
