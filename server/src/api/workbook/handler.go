@@ -29,7 +29,7 @@ func CreateWorkbookHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -68,7 +68,7 @@ func GetWorkbookHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -120,7 +120,7 @@ func UpdateWorkbookHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -151,7 +151,7 @@ func DeleteWorkbookHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return

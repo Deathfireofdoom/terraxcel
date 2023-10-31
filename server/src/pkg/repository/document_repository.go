@@ -1,13 +1,52 @@
 package repository
 
-import "log"
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/db"
+)
 
 type DocumentRepository struct {
-	dbManager *DBManager
+	dbManager *db.DBManager
 }
 
 func NewDocumentRepository() (*DocumentRepository, error) {
-	dbManager, err := NewDBManager("user=postgres password=postgres dbname=postgres sslmode=disable")
+	log.Println("creating repository")
+
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+
+	if dbPort == "" {
+		dbPort = "5432"
+	}
+
+	if dbUser == "" {
+		dbUser = "postgres"
+	}
+
+	if dbPassword == "" {
+		dbPassword = "postgres"
+	}
+
+	if dbName == "" {
+		dbName = "postgres"
+	}
+
+	dataSourceName := fmt.Sprintf(
+		`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
+		dbHost, dbPort, dbUser, dbPassword, dbName,
+	)
+
+	dbManager, err := db.NewDBManager(dataSourceName)
 	if err != nil {
 		log.Printf("failed to create db manager: %v", err)
 		return nil, err

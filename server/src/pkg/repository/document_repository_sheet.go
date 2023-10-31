@@ -1,5 +1,7 @@
 package repository
 
+import "github.com/Deathfireofdoom/terraxcel/common/models"
+
 func (r *DocumentRepository) createSheetTable() error {
 	tableQuery := `
 		CREATE TABLE IF NOT EXISTS sheet (
@@ -27,12 +29,11 @@ func (r *DocumentRepository) GetSheet(id string) (*models.Sheet, error) {
 	row := r.dbManager.QueryRow(query, id)
 
 	var sheet models.Sheet
-	err = row.Scan(
+	err := row.Scan(
 		&sheet.ID,
 		&sheet.WorkbookID,
 		&sheet.Name,
 		&sheet.Pos,
-		&sheet.LastModified,
 	)
 
 	if err != nil {

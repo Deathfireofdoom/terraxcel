@@ -31,7 +31,7 @@ func CreateSheetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -64,7 +64,7 @@ func GetSheetHandler(w http.ResponseWriter, r *http.Request) {
 	sheetID := chi.URLParam(r, "sheetID")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -93,7 +93,6 @@ func GetSheetHandler(w http.ResponseWriter, r *http.Request) {
 // UpdateSheetHandler handles the updating of a sheet by its ID within a workbook.
 func UpdateSheetHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the workbook ID and sheet ID from the URL
-	workbookID := chi.URLParam(r, "workbookID")
 	sheetID := chi.URLParam(r, "sheetID")
 
 	// Get the sheet from the request body
@@ -117,14 +116,14 @@ func UpdateSheetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
 	}
 
 	// Update the sheet using ExcelClient
-	updatedSheet, err := excelClient.UpdateSheet(workbookID, &sheet)
+	updatedSheet, err := excelClient.UpdateSheet(&sheet)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to update sheet: %v", err), http.StatusInternalServerError)
 		return
@@ -150,7 +149,7 @@ func DeleteSheetHandler(w http.ResponseWriter, r *http.Request) {
 	sheetID := chi.URLParam(r, "sheetID")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return

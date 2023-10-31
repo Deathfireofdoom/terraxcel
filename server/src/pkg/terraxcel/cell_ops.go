@@ -8,7 +8,7 @@ import (
 	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
 )
 
-func (c *TerraxcelClient) CreateCell(workbookID, sheetID string, row int, column string, *models.CellValue) (*models.Cell, error) {
+func (c *TerraxcelClient) CreateCell(workbookID string, sheetID string, row int, column string, value models.CellValue) (*models.Cell, error) {
 	// get metadata of workbook from db
 	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
@@ -44,7 +44,7 @@ func (c *TerraxcelClient) CreateCell(workbookID, sheetID string, row int, column
 	}
 
 	// save cell to db
-	err = c.repository.SaveCell(cell, workbook.ID, sheet.ID)
+	err = c.repository.SaveCell(cell)
 	if err != nil {
 		fmt.Printf("failed to save cell: %v", err)
 		return nil, err
@@ -67,22 +67,8 @@ func (c *TerraxcelClient) ReadCell(workbookID, sheetID, cellID string) (*models.
 		return nil, err
 	}
 
-	// get sheet from db
-	sheet, err := c.repository.GetSheet(sheetID)
-	if err != nil {
-		fmt.Printf("failed to get sheet: %v", err)
-		return nil, err
-	}
-
 	// get cell from db
 	cell, err := c.repository.GetCell(cellID)
-	if err != nil {
-		fmt.Printf("failed to get cell: %v", err)
-		return nil, err
-	}
-
-	// get cell from file
-	cell.Value, err = excel.ReadCell(workbook, sheet, cell)
 	if err != nil {
 		fmt.Printf("failed to get cell: %v", err)
 		return nil, err
@@ -165,7 +151,7 @@ func (c *TerraxcelClient) UpdateCell(cell *models.Cell) (*models.Cell, error) {
 	}
 
 	// update cell in db
-	err = c.repository.SaveCell(cell, workbook.ID, sheet.ID)
+	err = c.repository.SaveCell(cell)
 	if err != nil {
 		fmt.Printf("failed to update cell in db: %v", err)
 		return nil, err

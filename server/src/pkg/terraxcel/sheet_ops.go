@@ -23,7 +23,7 @@ func (c *TerraxcelClient) CreateSheet(workbookID, sheetName string) (*models.She
 	}
 
 	// create sheet
-	pos, err := excel.CreateSheet(*workbook, sheetName)
+	pos, err := excel.CreateSheet(workbook, sheetName)
 	if err != nil {
 		fmt.Printf("failed to create sheet: %v", err)
 		return nil, err
@@ -68,7 +68,7 @@ func (c *TerraxcelClient) ReadSheet(workbookID, sheetID string) (*models.Sheet, 
 	}
 
 	// get sheet from file
-	sheet, err = excel.GetSheet(*workbook, sheet.Name, sheet.ID)
+	sheet, err = excel.GetSheet(workbook, sheet.Name, sheet.ID)
 	if err != nil {
 		fmt.Printf("failed to get sheet: %v", err)
 		return nil, err
@@ -99,7 +99,7 @@ func (c *TerraxcelClient) DeleteSheet(workbookID, sheetID string) error {
 	}
 
 	// delete sheet from file
-	err = excel.DeleteSheet(*workbook, sheet.Name)
+	err = excel.DeleteSheet(workbook, sheet.Name)
 	if err != nil {
 		fmt.Printf("failed to delete sheet: %v", err)
 		return err
@@ -137,7 +137,7 @@ func (c *TerraxcelClient) UpdateSheet(sheet *models.Sheet) (*models.Sheet, error
 	}
 
 	// update sheet in file
-	err = excel.RenameSheet(*workbook, oldSheet.Name, sheet.Name)
+	err = excel.RenameSheet(workbook, oldSheet.Name, sheet.Name)
 	if err != nil {
 		fmt.Printf("failed to update sheet: %v", err)
 		return nil, err

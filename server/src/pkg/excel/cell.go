@@ -1,7 +1,8 @@
 package excel
 
 import (
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
+
 	excelize "github.com/xuri/excelize/v2"
 
 	"fmt"
@@ -29,7 +30,7 @@ func UpdateCell(workbook *models.Workbook, sheet *models.Sheet, cell *models.Cel
 	return nil
 }
 
-func ReadCell(workbook *models.Workbook, sheet *models.Sheet, cell *models.Cell) (interface{}, error) {
+func ReadCell(workbook *models.Workbook, sheet *models.Sheet, cell *models.Cell) (*models.Cell, error) {
 	// opens the file
 	file, err := excelize.OpenFile(workbook.GetFullPath())
 	if err != nil {
@@ -43,12 +44,13 @@ func ReadCell(workbook *models.Workbook, sheet *models.Sheet, cell *models.Cell)
 		return nil, err
 	}
 
-	return value, nil
+	cell.Value = models.CellValue{Value: value}
+	return cell, nil
 }
 
 // these are just wrappers for UpdateCell to make it align with the other functions
 func DeleteCell(workbook *models.Workbook, sheet *models.Sheet, cell *models.Cell) error {
-	cell.Value = nil
+	cell.Value = models.CellValue{}
 	return UpdateCell(workbook, sheet, cell)
 }
 

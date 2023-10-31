@@ -27,7 +27,7 @@ func CreateCellHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate required cell fields TODO check this
-	if cell.Row == 0 || cell.Column == "" || cell.Value == "" {
+	if cell.Row == 0 || cell.Column == "" || cell.Value.Value == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
 		return
 	}
@@ -67,7 +67,7 @@ func GetCellHandler(w http.ResponseWriter, r *http.Request) {
 	cellID := chi.URLParam(r, "cellID")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
@@ -96,8 +96,6 @@ func GetCellHandler(w http.ResponseWriter, r *http.Request) {
 // UpdateCellHandler handles updating a cell by its ID.
 func UpdateCellHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the workbookID, sheetID, and cellID from the URL
-	workbookID := chi.URLParam(r, "workbookID")
-	sheetID := chi.URLParam(r, "sheetID")
 	cellID := chi.URLParam(r, "cellID")
 
 	// Get the cell from the request body
@@ -109,7 +107,7 @@ func UpdateCellHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate required cell fields TODO check this
-	if cell.Row == 0 || cell.Column == "" || cell.Value == "" {
+	if cell.Row == 0 || cell.Column == "" || cell.Value.Value == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
 		return
 	}
@@ -121,14 +119,14 @@ func UpdateCellHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return
 	}
 
 	// Update the cell using ExcelClient
-	updatedCell, err := excelClient.UpdateCell(workbookID, sheetID, &cell)
+	updatedCell, err := excelClient.UpdateCell(&cell)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to update cell: %v", err), http.StatusInternalServerError)
 		return
@@ -155,7 +153,7 @@ func DeleteCellHandler(w http.ResponseWriter, r *http.Request) {
 	cellID := chi.URLParam(r, "cellID")
 
 	// Initialize the Excel client
-	excelClient, err := client.NewExcelClient()
+	excelClient, err := client.NewTerraxcelClient()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to initialize Excel client: %v", err), http.StatusInternalServerError)
 		return

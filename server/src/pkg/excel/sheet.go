@@ -1,7 +1,7 @@
 package excel
 
 import (
-	"github.com/Deathfireofdoom/excel-client-go/pkg/models"
+	"github.com/Deathfireofdoom/terraxcel/common/models"
 	excelize "github.com/xuri/excelize/v2"
 
 	"fmt"
