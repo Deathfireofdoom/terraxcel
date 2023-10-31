@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/Deathfireofdoom/terraxcel/common/models"
-	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
+	"github.com/Deathfireofdoom/terraxcel/server/pkg/excel"
 )
 
 // CreateExcel creates an excel file in the specified folder path with the specified file name and extension

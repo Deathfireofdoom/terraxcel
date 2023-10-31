@@ -1,0 +1,13 @@
+FROM golang:1.21
+
+workdir /app
+
+COPY ./go.mod ./go.sum ./
+
+RUN go mod download
+
+COPY ./src ./src
+
+RUN CGO_ENABLED=1 go build -o main ./src/cmd/main.go
+
+CMD ["./main"]

@@ -5,10 +5,48 @@ import (
 	"os"
 
 	"github.com/Deathfireofdoom/terraxcel/common/models"
-	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/excel"
+	"github.com/Deathfireofdoom/terraxcel/server/pkg/excel"
 )
 
-func (c *TerraxcelClient) CreateCell(workbookID string, sheetID string, row int, column string, value models.CellValue) (*models.Cell, error) {
+func (c *TerraxcelClient) CreateSheet(workbookID, sheetName string) (*models.Sheet, error) {
+	// get metadata of workbook from db
+	workbook, err := c.repository.GetWorkbook(workbookID)
+	if err != nil {
+		fmt.Printf("failed to get metadata: %v", err)
+		return nil, err
+	}
+
+	// check if file exists
+	if _, err := os.Stat(workbook.GetFullPath()); os.IsNotExist(err) {
+		fmt.Printf("file does not exist: %v", err)
+		return nil, err
+	}
+
+	// create sheet
+	pos, err := excel.CreateSheet(workbook, sheetName)
+	if err != nil {
+		fmt.Printf("failed to create sheet: %v", err)
+		return nil, err
+	}
+
+	// creates sheet object
+	sheet, err := models.NewSheet(workbookID, pos, sheetName, "")
+	if err != nil {
+		fmt.Printf("failed to create sheet: %v", err)
+		return nil, err
+	}
+
+	// save sheet to db
+	err = c.repository.SaveSheet(sheet)
+	if err != nil {
+		fmt.Printf("failed to save sheet: %v", err)
+		return nil, err
+	}
+
+	return sheet, nil
+}
+
+func (c *TerraxcelClient) ReadSheet(workbookID, sheetID string) (*models.Sheet, error) {
 	// get metadata of workbook from db
 	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
@@ -29,55 +67,17 @@ func (c *TerraxcelClient) CreateCell(workbookID string, sheetID string, row int,
 		return nil, err
 	}
 
-	// create cell object
-	cell, err := models.NewCell(workbookID, sheetID, row, column, value, "")
+	// get sheet from file
+	sheet, err = excel.GetSheet(workbook, sheet.Name, sheet.ID)
 	if err != nil {
-		fmt.Printf("failed to create cell: %v", err)
+		fmt.Printf("failed to get sheet: %v", err)
 		return nil, err
 	}
 
-	// create cell in file
-	err = excel.CreateCell(workbook, sheet, cell)
-	if err != nil {
-		fmt.Printf("failed to create cell: %v", err)
-		return nil, err
-	}
-
-	// save cell to db
-	err = c.repository.SaveCell(cell)
-	if err != nil {
-		fmt.Printf("failed to save cell: %v", err)
-		return nil, err
-	}
-
-	return cell, nil
+	return sheet, nil
 }
 
-func (c *TerraxcelClient) ReadCell(workbookID, sheetID, cellID string) (*models.Cell, error) {
-	// get metadata of workbook from db
-	workbook, err := c.repository.GetWorkbook(workbookID)
-	if err != nil {
-		fmt.Printf("failed to get metadata: %v", err)
-		return nil, err
-	}
-
-	// check if file exists
-	if _, err := os.Stat(workbook.GetFullPath()); os.IsNotExist(err) {
-		fmt.Printf("file does not exist: %v", err)
-		return nil, err
-	}
-
-	// get cell from db
-	cell, err := c.repository.GetCell(cellID)
-	if err != nil {
-		fmt.Printf("failed to get cell: %v", err)
-		return nil, err
-	}
-
-	return cell, nil
-}
-
-func (c *TerraxcelClient) DeleteCell(workbookID, sheetID, cellID string) error {
+func (c *TerraxcelClient) DeleteSheet(workbookID, sheetID string) error {
 	// get metadata of workbook from db
 	workbook, err := c.repository.GetWorkbook(workbookID)
 	if err != nil {
@@ -98,33 +98,26 @@ func (c *TerraxcelClient) DeleteCell(workbookID, sheetID, cellID string) error {
 		return err
 	}
 
-	// get cell from db
-	cell, err := c.repository.GetCell(cellID)
+	// delete sheet from file
+	err = excel.DeleteSheet(workbook, sheet.Name)
 	if err != nil {
-		fmt.Printf("failed to get cell: %v", err)
+		fmt.Printf("failed to delete sheet: %v", err)
 		return err
 	}
 
-	// delete cell from file
-	err = excel.DeleteCell(workbook, sheet, cell)
+	// delete sheet from db
+	err = c.repository.DeleteSheet(sheetID)
 	if err != nil {
-		fmt.Printf("failed to delete cell: %v", err)
-		return err
-	}
-
-	// delete cell from db
-	err = c.repository.DeleteCell(cellID)
-	if err != nil {
-		fmt.Printf("failed to delete cell: %v", err)
+		fmt.Printf("failed to delete sheet: %v", err)
 		return err
 	}
 
 	return nil
 }
 
-func (c *TerraxcelClient) UpdateCell(cell *models.Cell) (*models.Cell, error) {
+func (c *TerraxcelClient) UpdateSheet(sheet *models.Sheet) (*models.Sheet, error) {
 	// get metadata of workbook from db
-	workbook, err := c.repository.GetWorkbook(cell.WorkbookID)
+	workbook, err := c.repository.GetWorkbook(sheet.WorkbookID)
 	if err != nil {
 		fmt.Printf("failed to get metadata: %v", err)
 		return nil, err
@@ -137,25 +130,25 @@ func (c *TerraxcelClient) UpdateCell(cell *models.Cell) (*models.Cell, error) {
 	}
 
 	// get sheet from db
-	sheet, err := c.repository.GetSheet(cell.SheetID)
+	oldSheet, err := c.repository.GetSheet(sheet.ID)
 	if err != nil {
 		fmt.Printf("failed to get sheet: %v", err)
 		return nil, err
 	}
 
-	// update cell in file
-	err = excel.UpdateCell(workbook, sheet, cell)
+	// update sheet in file
+	err = excel.RenameSheet(workbook, oldSheet.Name, sheet.Name)
 	if err != nil {
-		fmt.Printf("failed to update cell: %v", err)
+		fmt.Printf("failed to update sheet: %v", err)
 		return nil, err
 	}
 
-	// update cell in db
-	err = c.repository.SaveCell(cell)
+	// update sheet in db
+	err = c.repository.SaveSheet(sheet)
 	if err != nil {
-		fmt.Printf("failed to update cell in db: %v", err)
+		fmt.Printf("failed to update sheet in db: %v", err)
 		return nil, err
 	}
 
-	return cell, nil
+	return sheet, nil
 }

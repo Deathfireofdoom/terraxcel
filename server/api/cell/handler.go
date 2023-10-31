@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/Deathfireofdoom/terraxcel/common/models"
-	client "github.com/Deathfireofdoom/terraxcel/server/src/pkg/terraxcel"
+	client "github.com/Deathfireofdoom/terraxcel/server/pkg/terraxcel"
 
 	"github.com/go-chi/chi"
 )

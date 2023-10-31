@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/db"
+	"github.com/Deathfireofdoom/terraxcel/server/pkg/db"
 )
 
 type DocumentRepository struct {

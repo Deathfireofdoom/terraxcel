@@ -1,7 +1,7 @@
 package workbook
 
 import (
-	"github.com/Deathfireofdoom/terraxcel/server/src/api/sheet"
+	"github.com/Deathfireofdoom/terraxcel/server/api/sheet"
 	"github.com/go-chi/chi"
 )
 

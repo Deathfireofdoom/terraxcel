@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Deathfireofdoom/terraxcel/server/src/api"
+	"github.com/Deathfireofdoom/terraxcel/server/api"
 )
 
 func main() {

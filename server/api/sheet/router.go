@@ -1,7 +1,7 @@
 package sheet
 
 import (
-	"github.com/Deathfireofdoom/terraxcel/server/src/api/cell"
+	"github.com/Deathfireofdoom/terraxcel/server/api/cell"
 	"github.com/go-chi/chi"
 )
 

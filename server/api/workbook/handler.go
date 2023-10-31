@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi"
 
 	"github.com/Deathfireofdoom/terraxcel/common/models"
-	client "github.com/Deathfireofdoom/terraxcel/server/src/pkg/terraxcel"
+	client "github.com/Deathfireofdoom/terraxcel/server/pkg/terraxcel"
 )
 
 // CreateWorkbookHandler handles the creation of a workbook.

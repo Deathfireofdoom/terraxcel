@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 
-	"github.com/Deathfireofdoom/terraxcel/server/src/pkg/repository"
+	"github.com/Deathfireofdoom/terraxcel/server/pkg/repository"
 )
 
 type TerraxcelClient struct {
