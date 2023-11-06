@@ -8,8 +8,8 @@ func (r *DocumentRepository) createCellTable() error {
 			id 			VARCHAR(255) PRIMARY KEY,
 			sheet_id 	VARCHAR(255) NOT NULL,
 			workbook_id VARCHAR(255) NOT NULL,
-			row 		INT NOT NULL,
-			column 		VARCHAR(255) NOT NULL,
+			row     	INT NOT NULL,
+			col         VARCHAR(255) NOT NULL,
 			value_type 	VARCHAR(255) NOT NULL,
 			value 		VARCHAR(255) NOT NULL,
 			last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -56,7 +56,7 @@ func (r *DocumentRepository) SaveCell(cell *models.Cell) error {
 			sheet_id,
 			workbook_id,
 			row,
-			column,
+			col,
 			value_type,
 			value
 		) VALUES (
@@ -71,7 +71,7 @@ func (r *DocumentRepository) SaveCell(cell *models.Cell) error {
 			sheet_id = $2,
 			workbook_id = $3,
 			row = $4,
-			column = $5,
+			col = $5,
 			value_type = $6,
 			value = $7
 	`

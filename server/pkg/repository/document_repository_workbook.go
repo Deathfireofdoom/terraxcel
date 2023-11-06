@@ -8,7 +8,7 @@ func (r *DocumentRepository) createWorkbookTable() error {
 			id 			VARCHAR(255) PRIMARY KEY,
 			file_name 	VARCHAR(255) NOT NULL,
 			folder_path VARCHAR(255) NOT NULL,
-			extension 	VARCHAR(255) NOT NULL
+			extension 	VARCHAR(255) NOT NULL,
 			last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		);
 	`
@@ -58,7 +58,7 @@ func (r *DocumentRepository) SaveWorkbook(workbook *models.Workbook) error {
 		) ON CONFLICT (id) DO UPDATE SET
 			file_name = $2,
 			folder_path = $3,
-			extension = $4
+			extension = $4,
 			last_modified = CURRENT_TIMESTAMP;
 	`
 
