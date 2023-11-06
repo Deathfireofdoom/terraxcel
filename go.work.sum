@@ -1,1 +1,3 @@
+github.com/Deathfireofdoom/excel-client-go v0.0.0-20231015105217-0a0c50cda662 h1:fpKdZEd5vpL8z+ccj68ajM1cqBqDw2BSvPbLWQ8GMK4=
+github.com/Deathfireofdoom/excel-client-go v0.0.0-20231015105217-0a0c50cda662/go.mod h1:tWvkEfkBuR65eVlFVihdhyXjUFXcfZG/vKDVSWSMubI=
 github.com/mattn/go-sqlite3 v1.14.16/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=

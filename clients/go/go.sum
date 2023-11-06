@@ -1,7 +1,3 @@
-github.com/Deathfireofdoom/excel-client-go v0.0.0-20231015105217-0a0c50cda662 h1:fpKdZEd5vpL8z+ccj68ajM1cqBqDw2BSvPbLWQ8GMK4=
-github.com/Deathfireofdoom/excel-client-go v0.0.0-20231015105217-0a0c50cda662/go.mod h1:tWvkEfkBuR65eVlFVihdhyXjUFXcfZG/vKDVSWSMubI=
-github.com/Deathfireofdoom/terraxcel-client v0.0.0-20231017071301-009367980b5e h1:jYLAworYvlBysMs+GSxHSUId1zaDsu3T2O/+63E1MPs=
-github.com/Deathfireofdoom/terraxcel-client v0.0.0-20231017071301-009367980b5e/go.mod h1:LmHsukUISLnwtYfyHzLvZhWpINGI1NcOGx809j7+1Xk=
 github.com/Deathfireofdoom/terraxcel/common v0.0.0-20231031164258-9da063aac710 h1:P/WC2NFKLBNWbY3G5VRviPs6RyRUUprWqP6pbhe611M=
 github.com/Deathfireofdoom/terraxcel/common v0.0.0-20231031164258-9da063aac710/go.mod h1:9Ii5KGSt4pJ72QlbndC9/enUsIdZA2HoA/kfG/seQs8=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
